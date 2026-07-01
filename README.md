@@ -48,18 +48,17 @@ Download the original Darkly engine source code and install it:
 
 ```bash
 cd ~
-git clone [https://github.com/Bali10050/Darkly](https://github.com/Bali10050/Darkly)
+git clone https://github.com/Bali10050/Darkly
 cd Darkly
 ./install.sh
 ```
-*(If you need local installation only for your user, you can use `./install.sh -l`).*
 
 ### 2.2 Apply the OLED Palette
 Now, we need to apply the pure black palette provided in this repository.
 
 **Method A: Via Terminal (Fastest)**
 ```bash
-cd ~/YOUR_REPO_NAME
+cd ~/Darkly-OLED
 cp DarklyOLED.colors ~/.local/share/color-schemes/
 ```
 Once copied, open **System Settings → Colors**, select **DarklyOLED**, and click **Apply**.
@@ -67,7 +66,7 @@ Once copied, open **System Settings → Colors**, select **DarklyOLED**, and cli
 **Method B: Via GUI**
 1. Open **System Settings** → **Colors**.
 2. Click the **"Install from file..."** button (bottom right).
-3. Navigate to `~/YOUR_REPO_NAME` and select `DarklyOLED.colors`.
+3. Navigate to `~/Darkly-OLED` and select `DarklyOLED.colors`.
 4. Select it from the list and click **Apply**.
 
 ---
@@ -79,7 +78,7 @@ The base Darkly theme for GTK uses dark gray backgrounds. To get pure OLED black
 ### 3.1 Download and install Darkly GTK
 ```bash
 cd ~
-git clone [https://github.com/wrymt/darkly-gtk](https://github.com/wrymt/darkly-gtk)
+git clone https://github.com/wrymt/darkly-gtk
 cd darkly-gtk
 ./install.sh
 ```
@@ -88,8 +87,8 @@ cd darkly-gtk
 To force pure black on GTK2, GTK3, and GTK4 (including Libadwaita), run the script provided in this repository:
 
 ```bash
-cd ~/YOUR_REPO_NAME
-bash darklyoled-gtk.sh
+cd ~/Darkly-OLED
+bash DarklyOLED-GTK.sh
 ```
 This script will read your active `DarklyOLED.colors` palette and automatically create/apply a standalone OLED theme to all your GTK configuration folders. 
 *(Note: You may need to close and reopen your GTK apps or log out/log in to see the changes).*
@@ -105,7 +104,7 @@ Download the pre-compiled `.flatpak` file and install it globally:
 
 ```bash
 cd ~
-wget [https://github.com/Bali10050/Darkly/releases/download/v0.5.38/darkly-qt6.9-0.5.38-x86_64.flatpak](https://github.com/Bali10050/Darkly/releases/download/v0.5.38/darkly-qt6.9-0.5.38-x86_64.flatpak)
+wget https://github.com/Bali10050/Darkly/releases/download/v0.5.38/darkly-qt6.9-0.5.38-x86_64.flatpak
 flatpak install darkly-qt6.9-0.5.38-x86_64.flatpak
 ```
 
@@ -136,4 +135,4 @@ sudo flatpak override --env=QT_QPA_PLATFORMTHEME=kde
    - `QT_QPA_PLATFORMTHEME=kde`
 
 ---
-*Enjoy your full OLED system and save battery! 🔋*
+*Enjoy your full OLED system!*
