@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=X-GNOME-Metatheme
+Name=Darky
+Comment=Darkly OLED - pure black GTK theme (GTK2/3/4 + libadwaita)
+Encoding=UTF-8
+
+[X-GNOME-Metatheme]
+GtkTheme=Darky
+MetacityTheme=Darky
+IconTheme=breeze-dark
+CursorTheme=breeze_cursors
+ButtonLayout=menu:minimize,maximize,close

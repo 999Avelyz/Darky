@@ -1,0 +1,18 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "Darky (OLED variant of Darkly by Bali10050)"
+            }
+        ],
+        "Category": "Plasma Theme",
+        "Description": "Darkly OLED - pure black Plasma style. Based on the Darkly Plasma theme by Bali10050.",
+        "EnabledByDefault": true,
+        "Id": "Darky",
+        "License": "GPLv2",
+        "Name": "Darky",
+        "Version": "1.0",
+        "Website": "https://github.com/Bali10050/Darkly"
+    },
+    "X-Plasma-API": "5.0"
+}

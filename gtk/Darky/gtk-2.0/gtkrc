@@ -1,0 +1,83 @@
+# Darky - GTK2 (OLED / true black)
+# Best-effort colour match to the Darky Qt/GTK3 theme.
+# GTK2 apps are increasingly rare; this gives them a coherent
+# pure-black look rather than a blinding white one.
+
+gtk-color-scheme = "base_color:#000000\nfg_color:#f1f1f1\ntooltip_fg_color:#eff0f1\nselected_bg_color:#1b91d5\nselected_fg_color:#ffffff\ntext_color:#f1f1f1\nbg_color:#000000\ntooltip_bg_color:#161616\nlink_color:#0064ff"
+
+gtk-icon-theme-name = "breeze-dark"
+gtk-enable-animations = 1
+gtk-primary-button-warps-slider = 0
+
+style "default"
+{
+    xthickness = 1
+    ythickness = 1
+
+    fg[NORMAL]        = "#f1f1f1"
+    fg[PRELIGHT]      = "#ffffff"
+    fg[SELECTED]      = "#ffffff"
+    fg[ACTIVE]        = "#f1f1f1"
+    fg[INSENSITIVE]   = "#8b8b8b"
+
+    bg[NORMAL]        = "#000000"
+    bg[PRELIGHT]      = "#161616"
+    bg[SELECTED]      = "#1b91d5"
+    bg[ACTIVE]        = "#161616"
+    bg[INSENSITIVE]   = "#000000"
+
+    base[NORMAL]      = "#000000"
+    base[PRELIGHT]    = "#000000"
+    base[SELECTED]    = "#1b91d5"
+    base[ACTIVE]      = "#1b91d5"
+    base[INSENSITIVE] = "#161616"
+
+    text[NORMAL]      = "#f1f1f1"
+    text[PRELIGHT]    = "#f1f1f1"
+    text[SELECTED]    = "#ffffff"
+    text[ACTIVE]      = "#ffffff"
+    text[INSENSITIVE] = "#8b8b8b"
+
+    engine "pixmap" {
+    }
+}
+
+style "button" = "default"
+{
+    bg[NORMAL]      = "#161616"
+    bg[PRELIGHT]    = "#1e1e1e"
+    bg[ACTIVE]      = "#242424"
+    bg[INSENSITIVE] = "#0a0a0a"
+}
+
+style "tooltips" = "default"
+{
+    bg[NORMAL]   = "#161616"
+    fg[NORMAL]   = "#eff0f1"
+    base[NORMAL] = "#161616"
+    text[NORMAL] = "#eff0f1"
+}
+
+style "menu" = "default"
+{
+    bg[NORMAL]   = "#000000"
+    base[NORMAL] = "#000000"
+}
+
+style "menuitem" = "default"
+{
+    bg[PRELIGHT]   = "#1b91d5"
+    fg[PRELIGHT]   = "#ffffff"
+    text[PRELIGHT] = "#ffffff"
+}
+
+class "GtkWidget"                 style "default"
+class "GtkButton"                 style "button"
+class "GtkToggleButton"           style "button"
+class "GtkCheckButton"            style "button"
+class "GtkRadioButton"            style "button"
+class "GtkMenu"                   style "menu"
+class "GtkMenuItem"               style "menuitem"
+widget_class "*<GtkMenuItem>*"    style "menuitem"
+widget "gtk-tooltip*"             style "tooltips"
+widget "gtk-tooltips"             style "tooltips"
