@@ -18,9 +18,6 @@ THEMES_DIR="$DATA/themes"
 GTK4_CONF="$CONF/gtk-4.0"
 BUILD_DIR="${TMPDIR:-/tmp}/darky-build"
 
-FLATPAK_FILE="darkly-qt6.9-0.5.38-x86_64.flatpak"
-FLATPAK_URL="https://github.com/Bali10050/Darkly/releases/download/v0.5.38/${FLATPAK_FILE}"
-
 c()  { printf '\033[1;36m==>\033[0m %s\n' "$1"; }
 ok() { printf '\033[1;32m  ok\033[0m %s\n' "$1"; }
 warn(){ printf '\033[1;33m  !!\033[0m %s\n' "$1"; }
@@ -58,8 +55,21 @@ if have apt; then
       libkf6i18n-dev libkf6iconthemes-dev libkf6windowsystem-dev \
       libkf6colorscheme-dev libkirigami-dev \
   && ok "dependencies installed" || warn "apt reported an error - check the packages above"
+elif have dnf; then
+  sudo dnf install -y \
+      git cmake extra-cmake-modules gcc gcc-c++ make \
+      qt6-qtbase-devel qt6-qttools-devel qt6-qtdeclarative-devel \
+      qt6-qtsvg-devel qt6-qtwayland-devel \
+      "cmake(KDecoration3)" kwin-devel \
+      kf6-kcoreaddons-devel kf6-kconfig-devel kf6-kconfigwidgets-devel \
+      kf6-kguiaddons-devel kf6-ki18n-devel kf6-kiconthemes-devel \
+      kf6-kwindowsystem-devel kf6-kcolorscheme-devel kf6-kcmutils-devel \
+      kf6-kirigami-devel kf6-frameworkintegration-devel \
+      kf6-kpackage-devel kf6-kservice-devel kf6-kwidgetsaddons-devel \
+      kf6-kcodecs-devel kf6-karchive-devel kf6-knotifications-devel \
+  && ok "dependencies installed" || warn "dnf reported an error - check the packages above"
 else
-  warn "apt not found - install the Qt6/KF6 dev packages manually for your distro, then re-run."
+  warn "No supported package manager (apt/dnf) found - install the Qt6/KF6 dev packages manually for your distro, then re-run."
 fi
 
 # =====================================================================
@@ -71,7 +81,7 @@ if have cmake; then
   mkdir -p "$BUILD_DIR"
   cd "$BUILD_DIR"
 
-  # Passato il flag corretto per il CMakeLists.txt
+  # Pass the correct flag to CMakeLists.txt
   cmake "$SRC/src" -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_QT6=ON \
     && ok "CMake configured (Qt6 only)" \
     || { warn "CMake configuration failed"; exit 1; }
@@ -180,13 +190,32 @@ if [[ "${fp,,}" == "y" || "${fp,,}" == "yes" ]] && have flatpak; then
   sudo flatpak override --filesystem=xdg-config/gtk-4.0
   sudo flatpak override --filesystem=xdg-data/color-schemes:ro
 
-  # Download & install the Darkly KDE-runtime extension (Qt6.9 build)
-  # We still need this to provide Qt6 libraries inside the sandbox
-  ( cd "${TMPDIR:-/tmp}" \
-    && { curl -L -o "$FLATPAK_FILE" "$FLATPAK_URL" || wget -O "$FLATPAK_FILE" "$FLATPAK_URL"; } \
-    && sudo flatpak install --system -y "./$FLATPAK_FILE" ) \
-    && ok "Flatpak runtime installed" \
-    || warn "Flatpak download/install failed - adjust the runtime version (qt6.x) to match yours"
+  # Install the Darkly KDE-runtime extension from a LOCAL bundle (no download).
+  # We still need this to provide Qt6 libraries inside the sandbox.
+  # The bundle must sit next to install.sh and be named Darkly-QT*.flatpak
+  # (the user picks whichever Qt runtime version they downloaded).
+  shopt -s nullglob
+  FLATPAK_MATCHES=( "$SRC"/Darkly-QT*.flatpak )
+  shopt -u nullglob
+
+  if (( ${#FLATPAK_MATCHES[@]} == 0 )); then
+    warn "no file found - there is no Darkly-QT*.flatpak next to install.sh"
+    echo "     How to get it:"
+    echo "       1. Open  https://github.com/Bali10050/Darkly/releases/latest"
+    echo "       2. Go to the latest tag and open the 'Assets' section."
+    echo "       3. Check your Qt version in:"
+    echo "          System Settings > About this System  (the 'Qt Version' line)."
+    echo "       4. Download the .flatpak that matches your Qt version"
+    echo "          (e.g. Qt 6.9 -> ...qt6.9...,  Qt 6.10 -> ...qt6.10...)."
+    echo "       5. Copy it here and rename it to  Darkly-QT<version>.flatpak"
+    echo "          (e.g. Darkly-QT6.10-0.5.38.flatpak), then run the installer again."
+  else
+    FLATPAK_FILE="${FLATPAK_MATCHES[0]}"
+    c "Using $(basename "$FLATPAK_FILE")"
+    sudo flatpak install --system -y "$FLATPAK_FILE" \
+      && ok "Flatpak runtime installed" \
+      || warn "Flatpak install failed - adjust the runtime version (qt6.x) to match yours"
+  fi
 
   # --- Flatseal-equivalent overrides (Everything renamed to Darky) ---
   sudo flatpak override --env=QT_STYLE_OVERRIDE=Darky
